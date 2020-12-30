@@ -1,27 +1,24 @@
-# 6.00.2x Problem Set 2: Simulating robots
-
 import math
-import random
-
-import ps2_visualize
 import pylab
+import random
+import ps2_visualize
 
-##################
-## Comment/uncomment the relevant lines, depending on which version of Python you have
-##################
+from verify_movement38 import testRobotMovement
+
+## Comment/uncomment the relevant lines, depending on your Python version
 
 # For Python 3.5:
-# from ps2_verify_movement35 import testRobotMovement
+# from verify_movement35 import testRobotMovement
 # If you get a "Bad magic number" ImportError, you are not using Python 3.5 
 
 # For Python 3.6:
-# from ps2_verify_movement36 import testRobotMovement
+# from verify_movement36 import testRobotMovement
 # If you get a "Bad magic number" ImportError, you are not using Python 3.6
 
-from ps2_verify_movement38 import testRobotMovement
+# For Python 3.7:
+# from verify_movement37 import testRobotMovement
+# If you get a "Bad magic number" ImportError, you are not using Python 3.6
 
-
-# === Provided class Position
 class Position(object):
     """
     A Position represents a location in a two-dimensional room.
@@ -54,9 +51,11 @@ class Position(object):
         """
         old_x, old_y = self.getX(), self.getY()
         angle = float(angle)
+        
         # Compute the change in position
         delta_y = speed * math.cos(math.radians(angle))
         delta_x = speed * math.sin(math.radians(angle))
+        
         # Add that to the existing position
         new_x = old_x + delta_x
         new_y = old_y + delta_y
@@ -66,7 +65,6 @@ class Position(object):
         return "(%0.2f, %0.2f)" % (self.x, self.y)
 
 
-# === Problem 1
 class RectangularRoom(object):
     """
     A RectangularRoom represents a rectangular region containing clean or dirty
@@ -98,18 +96,18 @@ class RectangularRoom(object):
 
         pos: a Position
         """
-        # Get the coordinates
+        # Get the coordinates of the tile
         x, y = int(pos.getX()), int(pos.getY())
         
         # Try to clean the tile
         try:
             
-            # Clean if not clean
+            # Clean the tile if it is not clean
             if not self.tiles[y][x]:
                 self.tiles[y][x] = True
                 self.clean_tiles += 1    
         
-        # Handle tile outside room
+        # Print an error if the tile is outside the room
         except IndexError as e:
             print(e)
         
@@ -124,11 +122,10 @@ class RectangularRoom(object):
         n: an integer
         returns: True if (m, n) is cleaned, False otherwise
         """
-        # Try to access tile
         try:
             return self.tiles[n][m]
         
-        # Handle tile outside room
+        # Print an error if the tile is outside the room
         except IndexError as e:
             print(e)
         
@@ -170,7 +167,7 @@ class RectangularRoom(object):
         pos: a Position object.
         returns: True if pos is in the room, False otherwise.
         """
-        # Get coordinates
+        # Get the coordinates of the tile
         x, y = pos.getX(), pos.getY()
         
         if x >= self.width or y >= self.height:
@@ -181,7 +178,6 @@ class RectangularRoom(object):
         return True
 
 
-# === Problem 2
 class Robot(object):
     """
     Represents a robot cleaning a particular room.
@@ -255,7 +251,6 @@ class Robot(object):
         raise NotImplementedError # don't change this!
 
 
-# === Problem 3
 class StandardRobot(Robot):
     """
     A StandardRobot is a Robot with the standard movement strategy.
@@ -288,11 +283,10 @@ class StandardRobot(Robot):
             angle = float(random.randint(0, 360))
             self.setRobotDirection(angle) 
 
-# Uncomment this line to see your implementation of StandardRobot in action!
-#testRobotMovement(StandardRobot, RectangularRoom)
+# Uncomment this line to see this implementation of StandardRobot in action!
+# testRobotMovement(StandardRobot, RectangularRoom)
 
 
-# === Problem 4
 def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
                   robot_type):
     """
@@ -342,16 +336,15 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
         # Add trial result
         trials.append(clock_tick)
         
-    # Return average
+    # anim.update(room, robots)
     # anim.done()
+    # Return average
     return sum(trials) / len(trials)
     
-
 # Uncomment this line to see how much your simulation takes on average
-#print(runSimulation(5, 1, 10, 10, 1, 300, StandardRobot))
+# print(runSimulation(5, 1, 10, 10, 1, 1, StandardRobot))
 
 
-# === Problem 5
 class RandomWalkRobot(Robot):
     """
     A RandomWalkRobot is a robot with the "random walk" movement strategy: it
@@ -383,17 +376,13 @@ class RandomWalkRobot(Robot):
             
             # Update angle
             angle = float(random.randint(0, 360))
-            self.setRobotDirection(angle)
-            
+            self.setRobotDirection(angle)          
             
 # Uncomment this line to see how much your simulation takes on average
-#print(runSimulation(5, 1, 10, 10, 1, 300, RandomWalkRobot))
+# print(runSimulation(5, 1, 10, 10, 1, 300, RandomWalkRobot))
 
 
 def showPlot1(title, x_label, y_label):
-    """
-    What information does the plot produced by this function tell you?
-    """
     num_robot_range = range(1, 11)
     times1 = []
     times2 = []
@@ -411,9 +400,6 @@ def showPlot1(title, x_label, y_label):
 
     
 def showPlot2(title, x_label, y_label):
-    """
-    What information does the plot produced by this function tell you?
-    """
     aspect_ratios = []
     times1 = []
     times2 = []
@@ -432,17 +418,14 @@ def showPlot2(title, x_label, y_label):
     pylab.show()
     
 
-# === Problem 6
 # NOTE: If you are running the simulation, you will have to close it 
 # before the plot will show up.
 
-
 # 1) Write a function call to showPlot1 that generates an appropriately-labeled
 #     plot.
-#showPlot1('Test', 'Number of robots', 'Time')
+# showPlot1('Test', 'Number of robots', 'Time')
 
 
-#
 # 2) Write a function call to showPlot2 that generates an appropriately-labeled
 #     plot.
-showPlot2('Test', 'Time', 'Aspect Ration')
+showPlot2('Test', 'Time', 'Aspect Ratio')
