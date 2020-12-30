@@ -428,4 +428,4 @@ def showPlot2(title, x_label, y_label):
 
 # 2) Write a function call to showPlot2 that generates an appropriately-labeled
 #     plot.
-showPlot2('Test', 'Time', 'Aspect Ratio')
+# showPlot2('Test', 'Time', 'Aspect Ratio')
