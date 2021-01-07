@@ -63,7 +63,23 @@ class Position(object):
     def __str__(self):
         return "(%0.2f, %0.2f)" % (self.x, self.y)
 
-    def reLocateDirect(self, Pos, target):
+    def ReLocateAngle(self, Pos, target):
+        """
+         Computes and returns an angle base on robot's position and  targeted tile coordinates'
+
+        Parameters
+        ----------
+        Pos : tuple
+            robot x, y coordinates.
+        target : tuple
+            targeted tile x, y coordinates.
+
+        Returns
+        -------
+        angle : float
+            sets the robot's angle to reach the target.
+
+        """
         sidex = target[0] - int(Pos[0])
         sidey = target[1] - int(Pos[1])
         if sidex == 0:
@@ -157,7 +173,6 @@ class RectangularRoom(object):
         # Handle tile outside room
         except IndexError as e:
             pass
-            
 
     def getNumTiles(self):
         """
@@ -204,47 +219,69 @@ class RectangularRoom(object):
 
     def nearestDirtyTile(self, Pos, z=1):
         """
+        searches for the nearest dirty tile by iterating through the robot position border 
+        in Tiles array and increase the border distance if the current border is clean 
+        returns the coordinates of the nearest dirty tile & None if all tiles are clean.
         
+
+
+        Parameters
+        ----------
+        Pos : tuple
+            robot x, y coordinates.
+        z : int, optional
+            border distance from robot position. starts with vaule of 1
+
+        Returns
+        -------
+        tuple
+            nearest dirty tile coordinates.
+        None
+            if all tiles are clean.
+
         """
+        #maps the position to x, y  variables
         x, y = Pos[0], Pos[1]
-        # left bound
+        
+        # left bound elements
         def leftBound(self):
             for i in range(y-z+1, y+z):
                 if self.height > i >= 0 and self.width > (x-z) >= 0:
                     if not self.isTileCleaned(x-z, i):
                         return (x-z, i)
-        # right bound
+                    
+        # right bound elements
         def rightBound(self):
             for i in range(y-z+1, y+z):
                 if self.height > i >= 0 and self.width > (x+z) >= 0:
                     if not self.isTileCleaned(x+z, i):
                         return (x+z, i)
-        # upper bound
+                    
+        # upper bound elements            
         def upperBound(self):
             for i in range(x-z, x+z+1):
                 if self.width > i >= 0 and self.height > (y-z) >= 0:
                     if not self.isTileCleaned(i, y-z):
                         return(i, y-z)
-        # lower bound
+                    
+        # lower bound elements
         def lowerBound(self):
             for i in range(x-z, x+z+1):
                 if self.width > i >= 0 and self.height > (y+z) >= 0:
                     if not self.isTileCleaned(i, y+z):
                         return (i, y+z)
-        bounds=[rightBound, leftBound, lowerBound, upperBound]
+                    
+        #randomize the sequnce of the border sides to increase multi robots case performance
+        bounds = [rightBound, leftBound, lowerBound, upperBound]
         random.shuffle(bounds)
-        for i in range(len(bounds)):
-            if bounds[i](self) is not None:
-                return bounds[i](self)
+        for bound in bounds:
+            if bound(self) is not None:
+                return bound(self)
+        
+        #increase the border distance
         z += 1
-        if z < self.width or z <self.height:
+        if z < self.width or z < self.height:
             return self.nearestDirtyTile(Pos, z)
-        else:
-            for i in range(self.height):
-                for j in range(self.width):
-                    if self.tiles[i][j] == False:
-                        return (i, j)
-
 # === Problem 2
 
 
@@ -268,10 +305,10 @@ class Robot(object):
         room:  a RectangularRoom object.
         speed: a float (speed > 0)
         """
-        self.room=room
-        self.speed=speed
-        self.direction=float(random.choice([0, 90, 180, 360]))
-        self.position=room.getRandomPosition()
+        self.room = room
+        self.speed = speed
+        self.direction = float(random.choice([0, 90, 180, 360]))
+        self.position = room.getRandomPosition()
         self.room.cleanTileAtPosition(self.position)
 
     def getRobotPosition(self):
@@ -297,7 +334,7 @@ class Robot(object):
 
         position: a Position object.
         """
-        self.position=position
+        self.position = position
 
     def setRobotDirection(self, direction):
         """
@@ -305,7 +342,7 @@ class Robot(object):
 
         direction: integer representing an angle in degrees
         """
-        self.direction=direction
+        self.direction = direction
 
     def updatePositionAndClean(self):
         """
@@ -335,7 +372,7 @@ class StandardRobot(Robot):
         been cleaned.
         """
         # Get potential next position
-        position=self.position.getNewPosition(self.direction, self.speed)
+        position = self.position.getNewPosition(self.direction, self.speed)
 
         # Check if position in room
         if self.room.isPositionInRoom(position):
@@ -348,7 +385,7 @@ class StandardRobot(Robot):
         else:
 
             # Update angle
-            angle=float(random.randint(0, 360))
+            angle = float(random.randint(0, 360))
             self.setRobotDirection(angle)
 
 # Uncomment this line to see your implementation of StandardRobot in action!
@@ -356,7 +393,7 @@ class StandardRobot(Robot):
 
 
 # === Problem 4
-def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,robot_type):
+def runSimulation(num_robots, speed, width, height, min_coverage, num_trials, robot_type):
     """
     Runs NUM_TRIALS trials of the simulation and returns the mean number of
     time-steps needed to clean the fraction MIN_COVERAGE of the room.
@@ -374,25 +411,25 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,rob
                 RandomWalkRobot)
     """
     # Set trial results
-    trials=[]
+    trials = []
 
     for i in range(num_trials):
-        anim=ps2_visualize.RobotVisualization(num_robots, width, height,0.1)
+        anim = ps2_visualize.RobotVisualization(num_robots, width, height, 0.05)
 
         # Set room & robots list
-        robots=[]
-        room=RectangularRoom(width, height)
-        room_size=room.getNumTiles()
+        robots = []
+        room = RectangularRoom(width, height)
+        room_size = room.getNumTiles()
 
         # Initialize robots
         for j in range(num_robots):
 
             # Create instance & add to list
-            robot=robot_type(room, speed)
+            robot = robot_type(room, speed)
             robots.append(robot)
 
         # Do until room is clean
-        clock_tick=0
+        clock_tick = 0
         while room.getNumCleanedTiles() < (min_coverage * room_size):
             anim.update(room, robots)
 
@@ -429,7 +466,7 @@ class RandomWalkRobot(Robot):
         been cleaned.
         """
         # Get potential next position
-        position=self.position.getNewPosition(self.direction, self.speed)
+        position = self.position.getNewPosition(self.direction, self.speed)
 
         # Check if position in room
         if self.room.isPositionInRoom(position):
@@ -439,13 +476,13 @@ class RandomWalkRobot(Robot):
             self.room.cleanTileAtPosition(position)
 
             # Update angle
-            angle=float(random.randint(0, 360))
+            angle = float(random.randint(0, 360))
             self.setRobotDirection(angle)
 
         # The position is out of the room
         else:
             # Update angle
-            angle=float(random.randint(0, 360))
+            angle = float(random.randint(0, 360))
             self.setRobotDirection(angle)
 
             self.setRobotPosition(position)
@@ -457,7 +494,10 @@ class RandomWalkRobot(Robot):
 
 class LeastDistanceRobot(Robot):
     """
-    
+    A LeastDistanceRobot is a Robot with the distance based movement strategy.
+
+    At each time-step, a LeastDistanceRobot looks for nearest dirty 
+    tile to it's position and updates it's angle to get to it .
     """
 
     def updatePositionAndClean(self):
@@ -467,22 +507,25 @@ class LeastDistanceRobot(Robot):
         Move the robot to a new position and mark the tile it is on as having
         been cleaned.
         """
+        
         # Get potential next position
-        position=self.position.getNewPosition(self.direction, self.speed)
-        Pos=(int(position.getX()), int(position.getY()))
-        target=self.room.nearestDirtyTile(Pos)
-        try:
-            angle=self.position.reLocateDirect(Pos, target)
+        position = self.position.getNewPosition(self.direction, self.speed)
+        Pos = (int(position.getX()), int(position.getY()))
+        
+        # targets nearest dirty tile coordinates
+        target = self.room.nearestDirtyTile(Pos)
+        if target is not None:
+            
+            #sets the robot angle if target exist
+            angle = self.position.ReLocateAngle(Pos, target)
             self.setRobotDirection(float(angle))
-        except:
-            self.setRobotPosition(position)
-            self.room.cleanTileAtPosition(position)
+            
+        # Update position & clean
         self.setRobotPosition(position)
         self.room.cleanTileAtPosition(position)
 
 
-
-print("least",runSimulation(5, 1, 15, 15, 1, 1, LeastDistanceRobot))
+print("least", runSimulation(10, 1, 30, 30, 1, 1, LeastDistanceRobot))
 # testRobotMovement(leastdistanceRobot, RectangularRoom)
 
 
@@ -490,9 +533,9 @@ def showPlot1(title, x_label, y_label):
     """
     What information does the plot produced by this function tell you?
     """
-    num_robot_range=range(1, 11)
-    times1=[]
-    times2=[]
+    num_robot_range = range(1, 11)
+    times1 = []
+    times2 = []
     for num_robots in num_robot_range:
         print("Plotting", num_robots, "robots...")
         times1.append(runSimulation(num_robots, 1.0,
@@ -512,11 +555,11 @@ def showPlot2(title, x_label, y_label):
     """
     What information does the plot produced by this function tell you?
     """
-    aspect_ratios=[]
-    times1=[]
-    times2=[]
+    aspect_ratios = []
+    times1 = []
+    times2 = []
     for width in [10, 20, 25, 50]:
-        height=300//width
+        height = 300//width
         print("Plotting cleaning time for a room of width:",
               width, "by height:", height)
         aspect_ratios.append(float(width) / height)
