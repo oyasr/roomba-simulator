@@ -42,20 +42,73 @@ Robots need to keep track of which parts of the floor have been cleaned. The are
 ### Termination
 The simulation ends when a specified fraction of the tiles in the room have been cleaned.
 
-## Project Structure
+## Getting Started
+
+### Pre-requisites and Local Development
+Developers using this project should already have Python3 and pip installed on their local machines.
+
+From the roomba-simulator folder run `pip install -r requirements.txt`. All required packages are included in the requirements file.
+
+### Project Structure
 ```
 ├── roomba-simulator/
     ├── app.py
-    ├── visualize.py
+    ├── plot.py
+    ├── ps2_visualize.py
     ├── verify_movement35.pyc
     ├── verify_movement36.pyc
     ├── verify_movement37.pyc
     ├── verify_movement38.pyc
 ```
 This is structure has six files:
-* *app.py* contains the main program.
-* *visualize.py* visualizes the robot's movement.
+* *app.py* contains the robot models and the simulation function.
+* *plot.py* contains functions for plotting data.
+* *ps2_visualize.py* visualizes the robot's movement.
 * *verify_movement35.pyc* is a precompiled module for Python 3.5 that assists with the visualization code.
 * *verify_movement36.pyc* is a precompiled module for Python 3.6 that assists with the visualization code.
 * *verify_movement37.pyc* is a precompiled module for Python 3.7 that assists with the visualization code.
 * *verify_movement38.pyc* is a precompiled module for Python 3.8 that assists with the visualization code.
+
+## Running Animated Visualizations
+>Note: This part is optional. It is cool and very easy to do, and may also be useful for debugging.
+
+### Steps
+We've provided some code to generate animations of your robots as they go about cleaning a room. These animations can also help you debug your simulation by helping you to visually determine when things are going wrong.
+
+Here's how to run the visualization:
+
+* In your simulation, at the beginning of a trial, insert the following code to start an animation:
+```
+    anim = ps2_visualize.RobotVisualization(num_robots, width, height)
+```
+(Pass in parameters appropriate to the trial, of course.) This will open a new window to display the animation and draw a picture of the room.
+
+* Then, during each time-step, before the robot(s) move, insert the following code to draw a new frame of the animation:
+```
+    anim.update(room, robots)
+```
+where room is a RectangularRoom object and robots is a list of Robot objects representing the current state of the room and the robots in the room.
+
+* When the trial is over, call the following method:
+```
+    anim.done()
+```
+
+>Note: We have done the previous steps for you :). You will only want to uncomment the specified lines found in app.py -> runSimulation()!
+
+### Caution
+The visualization code slows down your simulation so that the animation doesn't zip by too fast (by default, it shows 5 time-steps every second). Naturally, you will want to avoid running the animation code if you are trying to run many trials at once (for example, when you are running the full simulation).
+
+For purposes of debugging your simulation, you can slow down the animation even further. You can do this by changing the call to RobotVisualization, as follows:
+```
+    anim = ps2_visualize.RobotVisualization(num_robots, width, height, delay)
+```
+The parameter delay specifies how many seconds the program should pause between frames. The default is 0.2 (that is, 5 frames per second). You can increase this value to make the animation slower or decrease it (0.01 is reasonable) to see many robots cleaning the room at a faster frame rate.
+
+### Result
+The resulting animation will look like this:
+
+![Alt Text](https://media3.giphy.com/media/dEGoNojIKG6eke34ZZ/giphy.gif)
+
+## Plotting
+In plot.py we provide some cool plotting functions, make sure to play around with them or even write your own!
