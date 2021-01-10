@@ -69,6 +69,39 @@ This is structure has six files:
 * *verify_movement37.pyc* is a precompiled module for Python 3.7 that assists with the visualization code.
 * *verify_movement38.pyc* is a precompiled module for Python 3.8 that assists with the visualization code.
 
+## Robotic Agents
+
+In app.py we provide the `Robot` class, which stores the position and direction of a robot. Within this class, we provide methods that perform the following operations:
+
+* Initializing the object
+* Accessing the robot's position
+* Accessing the robot's direction
+* Setting the robot's position
+* Setting the robot's direction
+
+>Note: The `Robot` class is an abstract class, which means that we will never make an instance of it. Read up on the Python docs on abstract classes at this [link](https://docs.python.org/3/library/abc.html) and if you want more examples on abstract classes, follow this [link](https://julien.danjou.info/guide-python-static-class-abstract-methods/).
+
+In the final implementation of `Robot`, not all methods will be implemented. Not to worry -- its subclass(es) will implement the method `updatePositionAndClean()`.
+
+Each robot must also have some code that tells it how to move about a room, which will go in a method called `updatePositionAndClean`.
+
+Ordinarily we would consider putting all the robot's methods in a single class. However, we will consider robots with alternate movement strategies, to be implemented as different classes with the same interface. These classes will have a different implementation of `updatePositionAndClean` but are for the most part the same as the original robots. Therefore, we'd like to use inheritance to reduce the amount of duplicated code.
+
+### Standard Robot
+
+A `StandardRobot` is a robot with the standard movement strategy.
+At each time-step, a `StandardRobot` attempts to move in its current direction; when it hits a wall, it chooses a new direction randomly.
+
+### Random Walk Robot
+
+A `RandomWalkRobot` is a robot with the "random walk" movement strategy. It chooses a new direction at random at the end of each time-step.
+
+### Least Distance Robot
+
+A `LeastDistanceRobot` is a robot with a smart movement strategy. Rather than choosing a random direction (angle) at each time-step, it searches for the nearest dirty tile relative to its position and sets its movevment direction based on that.
+
+>Note: Comparisons between these different strategies can be found in the jupyter notebook `Notebook.ipynb`
+
 ## Running Animated Visualizations
 >Note: This part is optional. It is cool and very easy to do, and may also be useful for debugging.
 
