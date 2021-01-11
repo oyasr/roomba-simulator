@@ -148,8 +148,11 @@ In plot.py we provide some cool plotting functions, make sure to play around wit
 
 ## Contributers
 Ahmed Yasser
-Moaz Samy 
+
+Moaz Samy
+
 Osama Mohammed
+
 Osama Yasser
 
 
