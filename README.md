@@ -145,3 +145,11 @@ The resulting animation will look like this:
 
 ## Plotting
 In plot.py we provide some cool plotting functions, make sure to play around with them or even write your own!
+
+## Contributers
+Ahmed Yasser
+Moaz Samy 
+Osama Mohammed
+Osama Yasser
+
+
