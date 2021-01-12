@@ -146,7 +146,7 @@ The resulting animation will look like this:
 ## Plotting
 In plot.py we provide some cool plotting functions, make sure to play around with them or even write your own!
 
-## Contributers
+## Contributors
 Ahmed Yasser<br>
 Moaz Samy<br>
 Osama Mohammed<br>
