@@ -150,7 +150,7 @@ In plot.py we provide some cool plotting functions, make sure to play around wit
 
 ## Contributors
 Ahmed Yasser<br>
-Moaz Samy<br>
+<br>
 Osama Mohammed<br>
 Osama Yasser
 
