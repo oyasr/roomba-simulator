@@ -5,6 +5,33 @@ This project simulates the movement of different robotic agents and compares how
 
 As a part of the Artificial Intelligence course, it serves as the semester project.
 
+## Getting Started
+
+### Pre-requisites and Local Development
+Developers using this project should already have Python3 and pip installed on their local machines.
+
+From the roomba-simulator folder run `pip install -r requirements.txt`. All required packages are included in the requirements file.
+
+### Project Structure
+```
+├── roomba-simulator/
+    ├── app.py
+    ├── plot.py
+    ├── ps2_visualize.py
+    ├── verify_movement35.pyc
+    ├── verify_movement36.pyc
+    ├── verify_movement37.pyc
+    ├── verify_movement38.pyc
+```
+This is structure has six files:
+* *app.py* contains the robot models and the simulation function.
+* *plot.py* contains functions for plotting data.
+* *ps2_visualize.py* visualizes the robot's movement.
+* *verify_movement35.pyc* is a precompiled module for Python 3.5 that assists with the visualization code.
+* *verify_movement36.pyc* is a precompiled module for Python 3.6 that assists with the visualization code.
+* *verify_movement37.pyc* is a precompiled module for Python 3.7 that assists with the visualization code.
+* *verify_movement38.pyc* is a precompiled module for Python 3.8 that assists with the visualization code.
+
 ## Simulation Overview
 The following simplified model of a single robot moving in a square 5x5 room should give you some intuition about the system we are simulating.
 
@@ -42,32 +69,7 @@ Robots need to keep track of which parts of the floor have been cleaned. The are
 ### Termination
 The simulation ends when a specified fraction of the tiles in the room have been cleaned.
 
-## Getting Started
 
-### Pre-requisites and Local Development
-Developers using this project should already have Python3 and pip installed on their local machines.
-
-From the roomba-simulator folder run `pip install -r requirements.txt`. All required packages are included in the requirements file.
-
-### Project Structure
-```
-├── roomba-simulator/
-    ├── app.py
-    ├── plot.py
-    ├── ps2_visualize.py
-    ├── verify_movement35.pyc
-    ├── verify_movement36.pyc
-    ├── verify_movement37.pyc
-    ├── verify_movement38.pyc
-```
-This is structure has six files:
-* *app.py* contains the robot models and the simulation function.
-* *plot.py* contains functions for plotting data.
-* *ps2_visualize.py* visualizes the robot's movement.
-* *verify_movement35.pyc* is a precompiled module for Python 3.5 that assists with the visualization code.
-* *verify_movement36.pyc* is a precompiled module for Python 3.6 that assists with the visualization code.
-* *verify_movement37.pyc* is a precompiled module for Python 3.7 that assists with the visualization code.
-* *verify_movement38.pyc* is a precompiled module for Python 3.8 that assists with the visualization code.
 
 ## Robotic Agents
 
