@@ -283,32 +283,32 @@ def NumOfBotSizeWasteRatio(title, x_label, y_label, dim_length):
 
 # Plots
 
-timeNumberPlot('Number of robots & Time relation',
-               'Number of robots', 'Time (Tick)', 20)
+# timeNumberPlot('Number of robots & Time relation',
+#                'Number of robots', 'Time (Tick)', 20)
 
-timeAspectRatioPlot('Aspect Ratio & Time relation',
-                    'Room Aspect Ratio', 'Time', 100, 1)
+# timeAspectRatioPlot('Aspect Ratio & Time relation',
+#                     'Room Aspect Ratio', 'Time', 100, 1)
 
-wasteAspectRatioPlot("AspectRatio & WasteRatio relation",
-                     "Room Aspect Ratio", "Waste Percentage", 1, 100)
+# wasteAspectRatioPlot("AspectRatio & WasteRatio relation",
+#                      "Room Aspect Ratio", "Waste Percentage", 1, 100)
 
-timeAreaPlot("Time & Room Area relation",
-             "Length (squared)", "Time", 1)
+# timeAreaPlot("Time & Room Area relation",
+#              "Length (squared)", "Time", 1)
 
-consistencyPlot("Consistency", "Try number", "Time", 20, 1)
+# consistencyPlot("Consistency", "Try number", "Time", 20, 1)
 
-timeAreaPortionPlot('Room Portion & Time relation',
-                    'Length (squared)', 'Time', 1, RandomWalkRobot)
+# timeAreaPortionPlot('Room Portion & Time relation',
+#                     'Length (squared)', 'Time', 1, RandomWalkRobot)
 
-# CoverageWasteRatio('Coverage Percent & Size Relation','Length (squared)',
-#                    'Waste Percentage', 5, LeastDistanceRobot)
+# # CoverageWasteRatio('Coverage Percent & Size Relation','Length (squared)',
+# #                    'Waste Percentage', 5, LeastDistanceRobot)
 
-timeNumberPortionPlot("CostQualityTime", "Number of robots",
-                      "Time", 10, LeastDistanceRobot)
+# timeNumberPortionPlot("CostQualityTime", "Number of robots",
+#                       "Time", 10, LeastDistanceRobot)
 
-wasteAreaNumberPlot('Waste & Size Relation', 'Length (squared)',
-                    'Waste Percentage')
+# wasteAreaNumberPlot('Waste & Size Relation', 'Length (squared)',
+#                     'Waste Percentage')
 
 
-# NumOfBotSizeWasteRatio('Waste & Size & Num of bots Relation\n LeastDistanceRobot',
-#                         'Time', ' Waste Percentage', 20)
+# # NumOfBotSizeWasteRatio('Waste & Size & Num of bots Relation\n LeastDistanceRobot',
+# #                         'Time', ' Waste Percentage', 20)
