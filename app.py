@@ -395,8 +395,8 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials, ro
     trials_waste = []
 
     for i in range(num_trials):
-        anim = ps2_visualize.RobotVisualization(
-            num_robots, width, height, 0.3)
+        # anim = ps2_visualize.RobotVisualization(
+        #    num_robots, width, height, 0.3)
 
         # Set room & robots list
         wasted_ticks = []
@@ -415,7 +415,7 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials, ro
         # Do until room is clean
         clock_tick = 0
         while room.getNumCleanedTiles() < (min_coverage * room_size):
-            anim.update(room, robots)
+            # anim.update(room, robots)
 
             # Move each robot
             for robot in range(len(robots)):
@@ -425,14 +425,15 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials, ro
         trials_waste.append(sum(wasted_ticks)/len(wasted_ticks))
         # Add trial result
         trials.append(clock_tick)
-    anim.update(room, robots)
-    anim.done()
+    # anim.update(room, robots)
+    # anim.done()
     # Return average
     return ((sum(trials) / len(trials)), (sum(trials_waste)/len(trials_waste)))
 
 
 # Uncomment this line to see how much your simulation takes on average
 # print(runSimulation(3, 1, 10, 10, 1, 1, StandardRobot))
+
 
 
 # === Problem 5
@@ -476,6 +477,7 @@ class RandomWalkRobot(Robot):
 
 # Uncomment this line to see how much your simulation takes on average
 # print(runSimulation(5, 1, 10, 10, 1, 300, RandomWalkRobot))
+# testRobotMovement(RandomWalkRobot, RectangularRoom)
 
 
 class LeastDistanceRobot(Robot):
@@ -515,4 +517,4 @@ class LeastDistanceRobot(Robot):
 # print("least (Time, avgWastePerBot)", runSimulation(
 #     1, 1, 7, 7, 1, 1, LeastDistanceRobot))
 # testRobotMovement(leastdistanceRobot, RectangularRoom)
-print(runSimulation(2, 1, 10, 10, 1, 1, LeastDistanceRobot))
+# print(runSimulation(2, 1, 10, 10, 1, 1, LeastDistanceRobot))
